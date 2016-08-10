@@ -1,14 +1,15 @@
 # 分类和软件关系表
-
+```
 DROP TABLE IF EXISTS `categorys2softs`;
 CREATE TABLE `categorys2softs` (
   `categoryno` varchar(11) NOT NULL DEFAULT '' COMMENT '分类标识',
   `softunique` varchar(11) NOT NULL DEFAULT '' COMMENT '软件唯一标识'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+```
 ----
 
 # 分类表
-
+```
 DROP TABLE IF EXISTS `categorys`;
 CREATE TABLE `categorys` (
   `id` int(11) NOT NULL,
@@ -17,10 +18,11 @@ CREATE TABLE `categorys` (
   `parentno` varchar(11) NOT NULL DEFAULT '' COMMENT '父级编号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+```
 ----
 
 # 评论表
-
+```
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` int(11) NOT NULL,
@@ -29,10 +31,11 @@ CREATE TABLE `comments` (
   `comment` varchar(500) NOT NULL DEFAULT '' COMMENT '评论内容',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+```
 ----
 
 # 软件表
-
+```
 DROP TABLE IF EXISTS `softs`;
 CREATE TABLE `softs` (
   `id` int(11) NOT NULL,
@@ -56,3 +59,5 @@ CREATE TABLE `softs` (
   `recommends` varchar(400) NOT NULL DEFAULT '' COMMENT '相关推荐',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+```
+----
