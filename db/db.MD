@@ -61,3 +61,14 @@ CREATE TABLE `softs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 ```
 ----
+# 抓取链接的表
+```
+DROP TABLE IF EXISTS `urls`;
+CREATE TABLE `urls` (
+  `id` int(11) NOT NULL,
+  `url` varchar(300) NOT NULL DEFAULT '',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态0-未抓取 1-已抓取',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
