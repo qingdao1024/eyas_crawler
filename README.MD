@@ -15,10 +15,7 @@ apt-get install python-setuptools    # 安装python工具包
 apt-get install libmysqld-dev   # 安装MySQL库包
 apt-get install build-essential autoconf libtool pkg-config python-dev  # 安装编译类库
 
-
-apt-get install python-bs4     # beautifulsoup库
-or
-easy_install beautifulsoup4
+easy_install beautifulsoup4 # beautifulsoup库
 easy_install mysql-python   # python的MySQL包
 
 ```
