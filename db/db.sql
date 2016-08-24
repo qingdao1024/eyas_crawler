@@ -60,7 +60,8 @@ CREATE TABLE `softs` (
   `oldversion` varchar(400) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '历史版本',
   `olddownload` varchar(3000) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '历史下载路径',
   `created_at` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `IDX_UNIQUE` (`softunique`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -76,5 +77,6 @@ CREATE TABLE `urls` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `IDX_URL` (`url`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
