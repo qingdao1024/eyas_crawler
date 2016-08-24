@@ -22,7 +22,7 @@ ISOTIMEFORMAT='%Y-%m-%d %X'
 
 # 初始化mysql
 def premysql():
-	conn = MySQLdb.connect(host='localhost',user='root',passwd='secret',db='mytest',charset='utf8')
+	conn = MySQLdb.connect(host='10.66.135.176',user='root',passwd='Q!W@e3r4',db='eyas',charset='utf8mb4')
 	return conn
 
 # 判断你是否是下载链接
@@ -47,7 +47,7 @@ def addurl(url, limittime = '2016-08-15 00:00:00'):
 		row = cursor.fetchone ()
 		if row[0]==0:
 			now = time.strftime(ISOTIMEFORMAT, time.localtime())
-			sql = "INSERT INTO `mytest`.`urls` (`url`, `status`, `create_time`, `update_time`) VALUES ('"+url+"', '0', '"+now+"', '"+now+"');"
+			sql = "INSERT INTO `urls` (`url`, `status`, `create_time`, `update_time`) VALUES ('"+url+"', '0', '"+now+"', '"+now+"');"
 	#		print(sql)
 			#print('add-'+url) #
 			cursor.execute (sql)
@@ -64,10 +64,10 @@ def updatestatus(url, limittime = '2016-08-15 00:00:00'):
 	print 'updatestatus',url
 	conn = premysql()
 	cursor = conn.cursor()
-	#UPDATE `mytest`.`urls` SET `id`='1', `url`='http://www.wandoujia.com/apps', `status`='0', `create_time`='2016-08-15 05:55:57', `update_time`='2016-08-15 05:55:57' WHERE (`id`='1');
+	#UPDATE `urls` SET `id`='1', `url`='http://www.wandoujia.com/apps', `status`='0', `create_time`='2016-08-15 05:55:57', `update_time`='2016-08-15 05:55:57' WHERE (`id`='1');
 	try:
 		now = time.strftime(ISOTIMEFORMAT, time.localtime())
-		sql = "UPDATE `mytest`.`urls` SET `status`='1' WHERE `url`='"+url+"' and create_time > '"+limittime+"'"
+		sql = "UPDATE `urls` SET `status`='1' WHERE `url`='"+url+"' and create_time > '"+limittime+"'"
 		# print(sql)
 		cursor.execute (sql)
 		conn.commit()
@@ -206,53 +206,53 @@ def dealhtml(url,soup):
 	conn = premysql()
 	cursor = conn.cursor()
 	try:
-		cursor.execute ("select count(1) from `mytest`.`softs` where softunique='"+softunique+"' and version = '"+version+"'")
+		cursor.execute ("select count(1) from `softs` where softunique='"+softunique+"' and version = '"+version+"'")
 		row = cursor.fetchone ()
 		if row[0]==0:
 			now = time.strftime(ISOTIMEFORMAT, time.localtime())
-			sql = "INSERT INTO `mytest`.`softs` ( `softunique`,`version`,`created_at`) VALUES ( '"+softunique+"','"+version+"','"+now+"');"
+			sql = "INSERT INTO `softs` ( `softunique`,`version`,`created_at`) VALUES ( '"+softunique+"','"+version+"','"+now+"');"
 			cursor.execute (sql)
 			conn.commit()
 			#由于sql 太长 报需要用到buffer的问题 故拆开一个字段一个字段修改
-			cursor.execute ("select id from `mytest`.`softs` where softunique='"+softunique+"' and version = '"+version+"'")
+			cursor.execute ("select id from `softs` where softunique='"+softunique+"' and version = '"+version+"'")
 			row = cursor.fetchone ()
 			id=row[0]
 			
-			sql = "UPDATE `mytest`.`softs` SET  `note`='"+note+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `note`='"+note+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `imgs`='"+imgs+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `imgs`='"+imgs+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `downloadlink`='"+downloadlink+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `downloadlink`='"+downloadlink+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `updatenote`='"+updatenote+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `updatenote`='"+updatenote+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `size`='"+size+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `size`='"+size+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `categorynos`='"+categorynos+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `categorynos`='"+categorynos+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `tag`='"+tag+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `tag`='"+tag+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `updatetimes`='"+updatetimes+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `updatetimes`='"+updatetimes+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `request`='"+request+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `request`='"+request+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `createfrom`='"+createfrom+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `createfrom`='"+createfrom+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `erweimatupian`='"+erweimatupian+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `erweimatupian`='"+erweimatupian+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `recommends`='"+recommends+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `recommends`='"+recommends+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `oldversion`='"+oldversion+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `oldversion`='"+oldversion+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `olddownload`='"+olddownload+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `olddownload`='"+olddownload+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `name`='"+name+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `name`='"+name+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `downloadtimes`="+str(downloadtimes)+" WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `downloadtimes`="+str(downloadtimes)+" WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `suporttimes`='"+str(suporttimes)+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `suporttimes`='"+str(suporttimes)+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
-			sql = "UPDATE `mytest`.`softs` SET  `commenttimes`='"+str(commenttimes)+"' WHERE id="+str(id)+";"
+			sql = "UPDATE `softs` SET  `commenttimes`='"+str(commenttimes)+"' WHERE id="+str(id)+";"
 			cursor.execute (sql)
 			conn.commit()
 	except:
