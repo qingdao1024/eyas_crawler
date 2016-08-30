@@ -9,6 +9,7 @@ import time
 import MySQLdb
 import sys
 import os
+import configparser
 # 导入必要包
 
 #time.sleep(2)
@@ -19,10 +20,16 @@ sys.setdefaultencoding('utf8')
 
 ISOTIMEFORMAT='%Y-%m-%d %X'
 
+config = configparser.ConfigParser()
+config.readfp(open('eyas.ini'),"rb")
+
+# 获取配置
+def conf(key):
+	return config.get("global",key)
 
 # 初始化mysql
 def premysql():
-	conn = MySQLdb.connect(host='10.66.135.176',user='root',passwd='Q!W@e3r4',db='eyas',charset='utf8mb4')
+	conn = MySQLdb.connect(host=conf('host'),user=conf('user'),passwd=conf('passwd'),db=conf('db'),charset=conf('charset'))
 	return conn
 
 # 判断你是否是下载链接
@@ -89,6 +96,12 @@ def geturl(limittime = '2016-08-15 00:00:00'):
 		row = cursor.fetchone ()
 		if row!=None:
 			result = row[0]
+		else:
+			#检索是否已经全部爬取过
+			cursor.execute ("select count(1) from urls where status = 0 and create_time > '"+limittime+"';")
+			row = cursor.fetchone ()
+			if row[0]==0:
+				os.system("touch /vagrant_data/break.flag")#没有的话 终止程序
 		#print(result)
 	except:
 		print 'error geturl'
@@ -290,11 +303,12 @@ def requesthtml(url,limittime):
 		#print text
 	
 		# 判断是否是下载链接 http://www.wandoujia.com/apps/com.huizhuang.hz/binding
-		judge = judgedownload(url)
+		judge = judgedownload(nodeurl)
 		if judge:
-			continue		
-		#print nodeurl
-		addurl(nodeurl,limittime)
+			continue
+		else:
+			addurl(nodeurl,limittime)
+			
 	try:
 		dealhtml(url,soup)
 	except:
