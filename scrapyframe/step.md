@@ -7,7 +7,8 @@ apt-get update && apt-get install vim python-dev python-pip libxml2-dev libxslt1
 pip install Scrapy
 
 ----
-
+初始化爬虫项目demo
+scrapy startproject tutorial
 
 
 
