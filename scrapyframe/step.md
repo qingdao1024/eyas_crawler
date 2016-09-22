@@ -110,3 +110,8 @@ Out[5]: [u'Computers', u'Programming', u'Languages', u'Python']
 详情：https://scrapy-chs.readthedocs.io/zh_CN/1.0/intro/tutorial.html#shellselector
 
 修改代码进行测试
+
+
+----
+
+结合使用item和selector
