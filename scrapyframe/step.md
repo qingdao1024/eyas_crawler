@@ -10,6 +10,7 @@ pip install Scrapy
 初始化爬虫项目demo
 scrapy startproject tutorial
 
+初始化demo代码
 
 
 
