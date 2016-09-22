@@ -33,9 +33,9 @@
 Collision一般情况下为0，除非出现了SHA512(Domain) + SHA512(URL)完全一致的情况
 
 ###任务ID
-	SHA512(Domain) + SHA512(URL) + timestamp
+	SHA512(Domain) + SHA512(URL) + Timestamp
 
-如此设置任务ID后，可以根据SHA512(Domain)将任务进行分区，将相同域名的任务尽可能的分配给一个爬虫来进行抓取。使用SHA512(URL) ＋ timestamp是用来降低任务冲突的概率，以及同一个URL再次被抓取的时候ID会不同。	
+如此设置任务ID后，可以根据SHA512(Domain)将任务进行分区，将相同域名的任务尽可能的分配给一个爬虫来进行抓取。使用SHA512(URL) ＋ Timestamp是用来降低任务冲突的概率，以及同一个URL再次被抓取的时候ID会不同。	
 快照直接使用该ID作为存储ID。
 
 ##存储选择
@@ -44,7 +44,7 @@ Collision一般情况下为0，除非出现了SHA512(Domain) + SHA512(URL)完全
 MySQL／PostgreSQL
 
 ###快照
-CouchDB/MongoDB
+CouchDB／MongoDB
 
 
 
