@@ -1,4 +1,4 @@
-
+notice:https://scrapy-chs.readthedocs.io/zh_CN/1.0/intro/tutorial.html
 ----
 初始化一个debian系统环境
 安装所需要的依赖
