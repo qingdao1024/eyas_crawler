@@ -73,7 +73,40 @@ root@iZ28a30i167Z:/mnt/eyas_crawler/scrapyframe/tutorial# scrapy crawl dmoz
 
 
 
+----
 
+测试Selector的使用方法，可以使用内置的scrape shell
+安装python
+pip install --upgrade pip
+pip install jupyter
 
+安装完成后进入项目根目录输入
 
-)2016-09-22 11:46:55 [scrapy] INFO: Spider closed (finished)
+scrapy shell "http://www.dmoz.org/Computers/Programming/Languages/Python/Books/"
+
+等待解析。。。
+当 提示   In [1]:  时，可以输入selector选择器命令
+selector命令：
+response.body
+response.headers
+。。
+
+输入示例：
+In [1]: response.xpath('//title')
+Out[1]: [<Selector xpath='//title' data=u'<title>Open Directory - Computers: Progr'>]
+
+In [2]: response.xpath('//title').extract()
+Out[2]: [u'<title>Open Directory - Computers: Programming: Languages: Python: Books</title>']
+
+In [3]: response.xpath('//title/text()')
+Out[3]: [<Selector xpath='//title/text()' data=u'Open Directory - Computers: Programming:'>]
+
+In [4]: response.xpath('//title/text()').extract()
+Out[4]: [u'Open Directory - Computers: Programming: Languages: Python: Books']
+
+In [5]: response.xpath('//title/text()').re('(\w+):')
+Out[5]: [u'Computers', u'Programming', u'Languages', u'Python']
+
+详情：https://scrapy-chs.readthedocs.io/zh_CN/1.0/intro/tutorial.html#shellselector
+
+修改代码进行测试
