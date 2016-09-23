@@ -73,7 +73,110 @@ root@iZ28a30i167Z:/mnt/eyas_crawler/scrapyframe/tutorial# scrapy crawl dmoz
 
 
 
+----
+
+测试Selector的使用方法，可以使用内置的scrape shell
+安装python
+pip install --upgrade pip
+pip install jupyter
+
+安装完成后进入项目根目录输入
+
+scrapy shell "http://www.dmoz.org/Computers/Programming/Languages/Python/Books/"
+
+等待解析。。。
+当 提示   In [1]:  时，可以输入selector选择器命令
+selector命令：
+response.body
+response.headers
+。。
+
+输入示例：
+In [1]: response.xpath('//title')
+Out[1]: [<Selector xpath='//title' data=u'<title>Open Directory - Computers: Progr'>]
+
+In [2]: response.xpath('//title').extract()
+Out[2]: [u'<title>Open Directory - Computers: Programming: Languages: Python: Books</title>']
+
+In [3]: response.xpath('//title/text()')
+Out[3]: [<Selector xpath='//title/text()' data=u'Open Directory - Computers: Programming:'>]
+
+In [4]: response.xpath('//title/text()').extract()
+Out[4]: [u'Open Directory - Computers: Programming: Languages: Python: Books']
+
+In [5]: response.xpath('//title/text()').re('(\w+):')
+Out[5]: [u'Computers', u'Programming', u'Languages', u'Python']
+
+详情：https://scrapy-chs.readthedocs.io/zh_CN/1.0/intro/tutorial.html#shellselector
+
+修改代码进行测试
+
+
+----
+
+结合使用item和selector
+
+----
+
+结合
+
+import scrapy
+
+from tutorial.items import DmozItem
+
+class DmozSpider(scrapy.Spider):
+    name = "dmoz"
+    allowed_domains = ["dmoz.org"]
+    start_urls = [
+        "http://www.dmoz.org/Computers/Programming/Languages/Python/",
+    ]
+
+    def parse(self, response):
+        for href in response.css("ul.directory.dir-col > li > a::attr('href')"):
+            url = response.urljoin(response.url, href.extract())
+            yield scrapy.Request(url, callback=self.parse_dir_contents)
+
+    def parse_dir_contents(self, response):
+        for sel in response.xpath('//ul/li'):
+            item = DmozItem()
+            item['title'] = sel.xpath('a/text()').extract()
+            item['link'] = sel.xpath('a/@href').extract()
+            item['desc'] = sel.xpath('text()').extract()
+            yield item
+
+parse方法中进行 提取链接，通过scrapy.Request(url, callback=self.parse_dir_contents)方法进行回调解析
+
+def parse_articles_follow_next_page(self, response):
+    for article in response.xpath("//article"):
+        item = ArticleItem()
+
+        ... extract article data here
+
+        yield item
+
+    next_page = response.css("ul.navigation > li.next-page > a::attr('href')")
+    if next_page:
+        url = response.urljoin(next_page[0].extract())
+此处修改为一个迭代方法，进行对简单的分页数据进行抓取        yield scrapy.Request(url, self.parse_articles_follow_next_page
 
 
 
-)2016-09-22 11:46:55 [scrapy] INFO: Spider closed (finished)
+
+
+
+)
+
+
+
+
+----
+命令行工具：https://scrapy-chs.readthedocs.io/zh_CN/1.0/topics/commands.html
+
+
+
+
+scrapy startproject myproject
+  318  cd myproject/
+  319  ls
+  320  scrapy genspider -t basic wandoujia http://www.wandoujia.com/apps
+命令行创建项目
