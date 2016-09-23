@@ -115,3 +115,68 @@ Out[5]: [u'Computers', u'Programming', u'Languages', u'Python']
 ----
 
 结合使用item和selector
+
+----
+
+结合
+
+import scrapy
+
+from tutorial.items import DmozItem
+
+class DmozSpider(scrapy.Spider):
+    name = "dmoz"
+    allowed_domains = ["dmoz.org"]
+    start_urls = [
+        "http://www.dmoz.org/Computers/Programming/Languages/Python/",
+    ]
+
+    def parse(self, response):
+        for href in response.css("ul.directory.dir-col > li > a::attr('href')"):
+            url = response.urljoin(response.url, href.extract())
+            yield scrapy.Request(url, callback=self.parse_dir_contents)
+
+    def parse_dir_contents(self, response):
+        for sel in response.xpath('//ul/li'):
+            item = DmozItem()
+            item['title'] = sel.xpath('a/text()').extract()
+            item['link'] = sel.xpath('a/@href').extract()
+            item['desc'] = sel.xpath('text()').extract()
+            yield item
+
+parse方法中进行 提取链接，通过scrapy.Request(url, callback=self.parse_dir_contents)方法进行回调解析
+
+def parse_articles_follow_next_page(self, response):
+    for article in response.xpath("//article"):
+        item = ArticleItem()
+
+        ... extract article data here
+
+        yield item
+
+    next_page = response.css("ul.navigation > li.next-page > a::attr('href')")
+    if next_page:
+        url = response.urljoin(next_page[0].extract())
+此处修改为一个迭代方法，进行对简单的分页数据进行抓取        yield scrapy.Request(url, self.parse_articles_follow_next_page
+
+
+
+
+
+
+)
+
+
+
+
+----
+命令行工具：https://scrapy-chs.readthedocs.io/zh_CN/1.0/topics/commands.html
+
+
+
+
+scrapy startproject myproject
+  318  cd myproject/
+  319  ls
+  320  scrapy genspider -t basic wandoujia http://www.wandoujia.com/apps
+命令行创建项目
